@@ -2,9 +2,7 @@ package com.swanand.mc
 
 import android.Manifest
 import android.app.Activity
-import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import java.util.stream.Collectors
 import java.util.stream.IntStream
@@ -18,7 +16,6 @@ fun View.gone() {
 }
 
 fun permissionGiver(a: Activity) {
-    val permissionToStore = ActivityCompat.checkSelfPermission(a, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val permissions = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,

@@ -4,11 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -18,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -32,9 +37,11 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import java.lang.Math.sqrt
+import java.util.stream.IntStream
 import kotlin.math.abs
 
-class LauncherFragment : Fragment(),SymptomsFragmentCallback {
+
+class LauncherFragment : Fragment(),SymptomsFragmentCallback,HeartRateCallback {
     private lateinit var binding: DefaultLayoutBinding // Use your generated binding class
     private lateinit var database:CovaDB
     private lateinit var symptomRatingMap: Map<String, Float>
@@ -47,7 +54,6 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback {
     companion object {
         private const val VIDEO_CAPTURE_REQUEST_CODE = 101
     }
-    private lateinit var heartRateCalculator:HeartRateCalculator
     private lateinit var contentUri:Uri
 
 
@@ -87,7 +93,6 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback {
         database = CovaDB.getInstance(this.requireContext())
         val videoF = File(requireContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES), "finger_video.mp4")
 
-// Generate a content URI using FileProvider
         contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", videoF)
 
         videoCaptureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -97,22 +102,10 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback {
                 val data: Intent? = result.data
                 val videoUri: Uri? = data?.data
                 if (videoUri != null) {
-                    heartRateCalculator = HeartRateCalculator(videoUri)
+                    //heartRateCalculator = HeartRateCalculator(videoUri)
                     Toast.makeText(requireContext(), "URI is $videoUri", Toast.LENGTH_LONG).show()
 
-
-                    GlobalScope.launch(Dispatchers.Default) {
-                        // Perform the heart rate calculation here
-                        val heartRate = heartRateCalculator.calculateHeartRate()
-
-                        withContext(Dispatchers.Main) {
-                            binding.heartRateText.text = heartRate.toString()
-                            stopLoader()
-                        }
-                        // You can update the UI with the result if needed
-                        // Example: updateUIWithHeartRate(heartRate)
-                    }
-
+                    HeartRateDetector(this).execute(videoUri)
                 }
             }
         }
@@ -200,6 +193,7 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback {
 
         }
     }
+
 
 
     private fun startAccelerometerDataCollection() {
@@ -321,7 +315,12 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback {
         binding.contentLayout.visible()
     }
 
-
+    override fun onHeartRateCalculated(heartRate: Int) {
+        stopLoader()
+        binding.heartRateText.text = heartRate.toString()
+        Toast.makeText(requireContext(), "Heart Rate: $heartRate", Toast.LENGTH_SHORT).show()
+        heartRateResult = heartRate
+    }
 
 
 }
