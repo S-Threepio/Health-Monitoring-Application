@@ -1,0 +1,81 @@
+<!-- your_item_layout.xml -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewRespiratoryRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Respiratory Rate: " />
+
+    <TextView
+        android:id="@+id/textViewHeartRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Heart Rate: " />
+
+    <TextView
+        android:id="@+id/textViewNausea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nausea: " />
+
+    <TextView
+        android:id="@+id/textViewHeadache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Headache: " />
+
+    <TextView
+        android:id="@+id/textViewDiarrhea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Diarrhea: " />
+
+    <TextView
+        android:id="@+id/textViewSoreThroat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sore Throat: " />
+
+    <TextView
+        android:id="@+id/textViewFever"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fever: " />
+
+    <TextView
+        android:id="@+id/textViewMuscleAche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Muscle Ache: " />
+
+    <TextView
+        android:id="@+id/textViewLossOfSmellOrTaste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loss of Smell or Taste: " />
+
+    <TextView
+        android:id="@+id/textViewCough"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cough: " />
+
+    <TextView
+        android:id="@+id/textViewShortOfBreath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shortness of Breath: " />
+
+    <TextView
+        android:id="@+id/textViewFeelingTired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feeling Tired: " />
+</LinearLayout>
