@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.swanand.mc.database.CovaDB
 import com.swanand.mc.database.SymptomsDB
+import com.swanand.mc.databinding.FragmentDatabaseDisplayBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,18 +19,32 @@ import kotlinx.coroutines.withContext
 class DatabaseDisplayFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DBAdapter // Replace with your adapter class
-
+    private lateinit var binding: FragmentDatabaseDisplayBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_database_display, container, false)
-        recyclerView = view.findViewById(R.id.recyclerView)
+        binding = FragmentDatabaseDisplayBinding.inflate(inflater, container, false)
+        recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = DBAdapter(emptyList()) // Pass your data to the adapter
         recyclerView.adapter = adapter
-        return view
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Handle the back button press in the child fragment
+                // You can perform your desired actions here
+                parentFragmentManager.popBackStack(null, 0)
+            }
+        }
+
+        // Register the callback with the parent fragment's activity
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

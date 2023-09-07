@@ -4,15 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -20,30 +16,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.swanand.mc.database.CovaDB
-import com.swanand.mc.database.SymptomsDB
 import com.swanand.mc.databinding.DefaultLayoutBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.IOException
 import java.lang.Math.sqrt
-import java.util.stream.IntStream
 import kotlin.math.abs
 
 
-class LauncherFragment : Fragment(),SymptomsFragmentCallback,HeartRateCallback {
+class LauncherFragment : Fragment(), HeartRateCallback {
     private lateinit var binding: DefaultLayoutBinding // Use your generated binding class
-    private lateinit var database:CovaDB
+    private lateinit var database: CovaDB
     private lateinit var symptomRatingMap: Map<String, Float>
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometerSensor: Sensor
@@ -51,6 +43,7 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback,HeartRateCallback {
     private var accelerometerResult = 0
     private var heartRateResult = 0
     private lateinit var videoCaptureLauncher: ActivityResultLauncher<Intent>
+
     companion object {
         private const val VIDEO_CAPTURE_REQUEST_CODE = 101
     }
@@ -63,6 +56,25 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback,HeartRateCallback {
     ): View? {
         // Initialize View Binding for the fragment
         binding = DefaultLayoutBinding.inflate(inflater, container, false)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Handle the back button press in the child fragment
+                val currentFragment =
+                    childFragmentManager.findFragmentById(binding.childContainer.id)
+
+
+                if (currentFragment == null) {
+                    requireActivity().finish()
+                }
+
+
+                if (currentFragment is SymptomsFragment) {
+                    childFragmentManager.popBackStack()
+                    onCloseSymptomsFragment()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         return binding.root
     }
 
@@ -114,50 +126,16 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback,HeartRateCallback {
 
         binding.breathingRateText.text = accelerometerResult.toString()
 
-        binding.showDB.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainer, DatabaseDisplayFragment())
-                addToBackStack(null)
-                commit()
-            }
-        }
-
-        binding.uploadToDb.setOnClickListener {
-            // Create a list of SymptomsDB objects with the collected data
-            val symptomsList =
-                SymptomsDB(
-                    respiratoryRate = accelerometerResult.toFloat(),
-                    heartRate = heartRateResult.toFloat(),
-                    nausea = symptomRatingMap["Nausea"] ?: 0f,
-                    headache = symptomRatingMap["Headache"] ?: 0f,
-                    diarrhea = symptomRatingMap["Diarrhea"] ?: 0f,
-                    soreThroat = symptomRatingMap["Sore Throat"] ?: 0f,
-                    fever = symptomRatingMap["Fever"] ?: 0f,
-                    muscleAche = symptomRatingMap["Muscle Ache"] ?: 0f,
-                    lossOfSmellOrTaste = symptomRatingMap["Loss of Smell or Taste"] ?: 0f,
-                    cough = symptomRatingMap["Cough"] ?: 0f,
-                    shortOfBreath = symptomRatingMap["Shortness of Breath"] ?: 0f,
-                    feelingTired = symptomRatingMap["Feeling Tired"] ?: 0f
-                )
-
-
-            // Insert the list of SymptomsDB objects into the Room database
-            GlobalScope.launch(Dispatchers.IO) {
-                database.symptomsDBDao().insertAll(symptomsList)
-            }
-
-            // Display a toast message to indicate successful upload
-            Toast.makeText(requireContext(), "Data uploaded to the database", Toast.LENGTH_SHORT).show()
-        }
-
-
         binding.uploadSymptoms.setOnClickListener {
             val fragContainer = binding.childContainer
             fragContainer.visible()
             binding.contentLayout.gone()
 
             childFragmentManager.beginTransaction()
-                .replace(binding.childContainer.id, SymptomsFragment())
+                .replace(
+                    binding.childContainer.id,
+                    SymptomsFragment(heartRateResult, accelerometerResult)
+                )
                 .addToBackStack(null)
                 .commit()
         }
@@ -193,8 +171,6 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback,HeartRateCallback {
 
         }
     }
-
-
 
     private fun startAccelerometerDataCollection() {
         sensorManager.registerListener(
@@ -306,11 +282,7 @@ class LauncherFragment : Fragment(),SymptomsFragmentCallback,HeartRateCallback {
         )
     }
 
-
-
-
-    override fun onCloseSymptomsFragment(symptomRatingMap: Map<String, Float>) {
-        setSymptomsRatingMap(symptomRatingMap)
+    fun onCloseSymptomsFragment() {
         binding.childContainer.gone()
         binding.contentLayout.visible()
     }

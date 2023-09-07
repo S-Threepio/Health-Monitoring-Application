@@ -16,7 +16,6 @@ class DBAdapter(private var data: List<SymptomsDB>) : RecyclerView.Adapter<DBAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-
         holder.textViewRespiratoryRate.text = "Respiratory Rate: ${item.respiratoryRate}"
         holder.textViewHeartRate.text = "Heart Rate: ${item.heartRate}"
         holder.textViewNausea.text = "Nausea: ${item.nausea}"

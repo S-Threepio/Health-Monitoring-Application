@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ProgressBar
         android:id="@+id/loader"
@@ -61,43 +59,18 @@
             android:id="@+id/breathing_rate"
             android:layout_width="match_parent"
             android:layout_height="51dp"
+            android:layout_marginVertical="5dp"
             android:layout_marginHorizontal="10dp"
             android:text="Measure Breathing Rate"
             />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <Button
-                android:id="@+id/upload_symptoms"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="54dp"
-                android:layout_marginHorizontal="10dp"
-                android:text="Upload \nSymptoms"
-                />
-
-            <Button
-                android:id="@+id/upload_to_db"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="10dp"
-                android:layout_height="54dp"
-                android:text="Upload \nto Database"
-                />
-        </LinearLayout>
-
 
         <Button
-            android:id="@+id/showDB"
+            android:id="@+id/upload_symptoms"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginVertical="5dp"
             android:layout_marginHorizontal="10dp"
-            android:text="Show Database"
-            />
+            android:text="Upload Symptoms" />
         <Button
             android:id="@+id/clearDB"
             android:layout_width="match_parent"
