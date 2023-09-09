@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.swanand.mc.database.CovaDB
+import com.swanand.mc.database.SessionManager
 import com.swanand.mc.database.SymptomsDB
 import com.swanand.mc.databinding.SymptomsLayoutBinding
 import kotlinx.coroutines.Dispatchers
@@ -71,6 +72,7 @@ class SymptomsFragment(var heartRate: Int, var breathingRate: Int) : Fragment() 
         binding.update.setOnClickListener {
             val symptomsList =
                 SymptomsDB(
+                    id = SessionManager.getSessionId(),
                     respiratoryRate = breathingRate.toFloat(),
                     heartRate = heartRate.toFloat(),
                     nausea = symptomRatingMap["Nausea"] ?: 0f,
@@ -93,7 +95,7 @@ class SymptomsFragment(var heartRate: Int, var breathingRate: Int) : Fragment() 
 
             Toast.makeText(
                 requireContext(),
-                "Data uploaded to the database ${breathingRate}",
+                "Data uploaded to the database",
                 Toast.LENGTH_SHORT
             ).show()
         }

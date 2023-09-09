@@ -1,10 +1,12 @@
 package com.swanand.mc.database
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "SymptomsDB")
 data class SymptomsDB(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey val id: String,
     @ColumnInfo(name = "Respiratory Rate") val respiratoryRate: Float = 0f,
     @ColumnInfo(name = "Heart Rate") val heartRate: Float = 0f,
     @ColumnInfo(name = "Nausea") val nausea: Float = 0f,

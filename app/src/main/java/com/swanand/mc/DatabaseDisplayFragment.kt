@@ -58,7 +58,7 @@ class DatabaseDisplayFragment : Fragment() {
 
         val symptomsDao = CovaDB.getInstance(context).symptomsDBDao()
         GlobalScope.launch(Dispatchers.IO) {
-            val data:List<SymptomsDB> = symptomsDao.getAll()
+            val data: List<SymptomsDB> = symptomsDao.getAll().reversed()
             // Update dbData with the retrieved data
             withContext(Dispatchers.Main) {
                 adapter.updateData(data) // Notify the adapter that the data has changed

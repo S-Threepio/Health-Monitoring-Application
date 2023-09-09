@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 // Define your database version
-private const val DATABASE_VERSION = 1
+private const val DATABASE_VERSION = 2
 
 @Database(entities = [SymptomsDB::class], version = DATABASE_VERSION)
 abstract class CovaDB : RoomDatabase() {

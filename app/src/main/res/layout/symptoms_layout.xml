@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Upload Symptomps to DB" />
+            android:text="Upload to Database" />
 
         <Button
             android:id="@+id/showDB"

@@ -176,7 +176,8 @@ class LauncherFragment : Fragment(), HeartRateCallback {
         sensorManager.registerListener(
             accelerometerListener,
             accelerometerSensor,
-            SensorManager.SENSOR_DELAY_NORMAL
+            1000000,
+            1000000
         )
     }
 
@@ -193,7 +194,7 @@ class LauncherFragment : Fragment(), HeartRateCallback {
                     accelerometerDataList.add(newValues)
 
                 // Check if you have collected 450 values, then stop reading
-                if (accelerometerDataList.size >= 5) {
+                if (accelerometerDataList.size >= 450) {
                     stopAccelerometerDataCollection()
                     stopLoader()
                     // Process the collected data as needed
@@ -227,34 +228,26 @@ class LauncherFragment : Fragment(), HeartRateCallback {
         }
     }
 
-    fun setSymptomsRatingMap(symptomsRatingMap: Map<String,Float>){
-        this.symptomRatingMap = symptomsRatingMap
-    }
-
     fun calculateAccelerometerData():Int{
             var previousValue = 0f
             var currentValue = 0f
             previousValue = 10f
             var k=0
-            for (i in 0..4) {
-                var (x,y,z) = accelerometerDataList[i]
-                currentValue = sqrt(
-                    Math.pow(z.toDouble(), 2.0) + Math.pow(
-                        x.toDouble(),
-                        2.0
-                    ) + Math.pow(y.toDouble(), 2.0)
-                ).toFloat()
-                if (abs(x = previousValue - currentValue) > 0.15) {
-                    k++
-                }
+        for (i in 10..449) {
+            var (x, y, z) = accelerometerDataList[i]
+            currentValue = sqrt(
+                Math.pow(z.toDouble(), 2.0) + Math.pow(
+                    x.toDouble(),
+                    2.0
+                ) + Math.pow(y.toDouble(), 2.0)
+            ).toFloat()
+            if (abs(x = previousValue - currentValue) > 0.15) {
+                k++
+            }
                 previousValue=currentValue
             }
             val ret= (k/45.00)
-        return 45
-
         return (ret*30).toInt()
-
-
     }
 
     private fun hasCameraPermission(): Boolean {

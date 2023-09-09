@@ -1,7 +1,6 @@
 <!-- your_item_layout.xml -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -11,71 +10,96 @@
         android:id="@+id/textViewRespiratoryRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Respiratory Rate: " />
+        android:text="Respiratory Rate: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewHeartRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Heart Rate: " />
+        android:text="Heart Rate: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
 
     <TextView
         android:id="@+id/textViewNausea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nausea: " />
+        android:text="Nausea: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewHeadache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Headache: " />
+        android:text="Headache: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewDiarrhea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Diarrhea: " />
+        android:text="Diarrhea: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewSoreThroat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sore Throat: " />
+        android:text="Sore Throat: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewFever"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fever: " />
+        android:text="Fever: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewMuscleAche"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Muscle Ache: " />
+        android:text="Muscle Ache: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewLossOfSmellOrTaste"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Loss of Smell or Taste: " />
+        android:text="Loss of Smell or Taste: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewCough"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cough: " />
+        android:text="Cough: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewShortOfBreath"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Shortness of Breath: " />
+        android:text="Shortness of Breath: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewFeelingTired"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Feeling Tired: " />
+        android:text="Feeling Tired: "
+        android:textSize="16sp"
+        android:textStyle="bold" />
 </LinearLayout>

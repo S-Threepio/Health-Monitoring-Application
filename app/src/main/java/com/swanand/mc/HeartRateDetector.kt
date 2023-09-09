@@ -4,9 +4,6 @@ import android.graphics.Color
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.AsyncTask
-import android.os.Build
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import java.io.IOException
 import java.util.stream.IntStream
 
@@ -68,9 +65,6 @@ class HeartRateDetector(private val heartRateCallback: HeartRateCallback) : Asyn
                      }
                  }
                  bitmaps.add(redCount / pixelCount)
-//                    if (time % 990000 == 0L) {
-//                        publishProgress((time.toDouble() / (totalTime * 1000000L)).toFloat())
-//                    }
              }
          }
          return bitmaps

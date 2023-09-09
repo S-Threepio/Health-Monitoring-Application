@@ -11,7 +11,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Initialize View Binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -23,9 +22,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
 
     fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
